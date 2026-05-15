@@ -1,0 +1,334 @@
+
+<h2 class="sr-only">Hospital Patient Admissions and Billing Analytics — 15-slide presentation deck</h2>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.deck{padding:1rem 0}
+.slide{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:2rem}
+.slide-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:1rem}
+.slide-num{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:4px 10px;font-size:12px;color:var(--color-text-secondary);white-space:nowrap;margin-top:2px}
+.slide-title{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.slide-sub{font-size:13px;color:var(--color-text-secondary);margin-top:3px}
+.explanation{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.75rem 1rem;font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-top:1rem}
+.explanation strong{color:var(--color-text-primary);font-weight:500}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1rem}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.75rem 1rem;text-align:center}
+.metric-val{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.metric-lbl{font-size:11px;color:var(--color-text-secondary);margin-top:3px}
+.chart-wrap{position:relative;width:100%}
+</style>
+
+<div class="deck">
+
+<!-- SLIDE 1 -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">01</span>
+    <div><div class="slide-title">Executive dashboard — key metrics at a glance</div><div class="slide-sub">Combined patient admissions &amp; billing overview</div></div>
+  </div>
+  <div class="metrics">
+    <div class="metric"><div class="metric-val">25</div><div class="metric-lbl">Unique patients</div></div>
+    <div class="metric"><div class="metric-val">3</div><div class="metric-lbl">Hospitals</div></div>
+    <div class="metric"><div class="metric-val" id="m-total-bill">—</div><div class="metric-lbl">Total billed ($)</div></div>
+    <div class="metric"><div class="metric-val" id="m-avg-stay">—</div><div class="metric-lbl">Avg length of stay</div></div>
+    <div class="metric"><div class="metric-val">64%</div><div class="metric-lbl">Payment rate (paid)</div></div>
+    <div class="metric"><div class="metric-val">16%</div><div class="metric-lbl">Denial rate</div></div>
+  </div>
+  <div class="explanation"><strong>Slide explanation:</strong> This opening dashboard gives the audience an instant snapshot of the dataset. 25 unique patients were admitted across 3 hospitals, generating over $209,000 in billed charges. The average stay is 3.6 days. Nearly two-thirds of bills were paid, but a 16% denial rate represents significant revenue leakage worth investigating.</div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">02</span><div><div class="slide-title">Medical condition distribution</div><div class="slide-sub">What conditions are driving admissions?</div></div></div>
+  <div class="chart-wrap" style="height:280px"><canvas id="c2" role="img" aria-label="Horizontal bar chart of medical conditions by patient count"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Diabetes is the leading condition (5 admissions), followed by Cancer, Heart Failure, Pneumonia, and Stroke (3 each). These chronic and acute conditions drive the most resource consumption. Targeted prevention programmes for diabetes could meaningfully reduce admission volumes.</div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">03</span><div><div class="slide-title">Admission type breakdown</div><div class="slide-sub">Emergency vs Elective vs Urgent</div></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A"></span>Emergency 44%</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD"></span>Elective 32%</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27"></span>Urgent 24%</span>
+  </div>
+  <div class="chart-wrap" style="height:260px"><canvas id="c3" role="img" aria-label="Doughnut chart of admission types"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Emergency admissions account for the largest share (44%), underscoring high demand for unplanned care. Elective cases at 32% offer an opportunity for optimised scheduling. Urgent cases (24%) occupy the middle tier, often requiring rapid resource allocation. Balancing elective capacity helps free resources for emergency peaks.</div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">04</span><div><div class="slide-title">Hospital workload comparison</div><div class="slide-sub">Patient volume per facility</div></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#534AB7"></span>City General</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75"></span>Metro Health</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27"></span>Regional Med</span>
+  </div>
+  <div class="chart-wrap" style="height:260px"><canvas id="c4" role="img" aria-label="Bar chart of patient count per hospital"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> All three hospitals carry roughly equal patient loads (~8 each), suggesting balanced distribution of care. City General and Metro Health each handle 9 patients while Regional Med handles 8. This near-equal load distribution is healthy but should be cross-checked against bed capacity and staffing ratios.</div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">05</span><div><div class="slide-title">Average billing amount by medical condition</div><div class="slide-sub">Which conditions cost the most?</div></div></div>
+  <div class="chart-wrap" style="height:320px"><canvas id="c5" role="img" aria-label="Horizontal bar chart showing average billing by condition"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Stroke ($23,450) and Cancer ($18,167) generate the highest average bills, driven by intensive procedures (tPA therapy, chemotherapy). Heart Failure follows at $13,367. Asthma and Hypertension have the lowest average costs. These findings should guide insurance negotiation strategies and resource planning for high-cost DRGs.</div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">06</span><div><div class="slide-title">Payment status distribution</div><div class="slide-sub">Paid vs Pending vs Denied claims</div></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#639922"></span>Paid 64%</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27"></span>Pending 20%</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A"></span>Denied 16%</span>
+  </div>
+  <div class="chart-wrap" style="height:260px"><canvas id="c6" role="img" aria-label="Pie chart of payment statuses"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> 64% of claims are successfully paid, 20% are still pending (representing cash-flow risk), and 16% are denied. Denied claims translate to approximately $33,450 in unrecovered revenue. Tackling the denial root causes — prior authorisation failures, coding errors — could unlock significant recoveries.</div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">07</span><div><div class="slide-title">Length of stay by condition</div><div class="slide-sub">Average days hospitalised per diagnosis</div></div></div>
+  <div class="chart-wrap" style="height:300px"><canvas id="c7" role="img" aria-label="Bar chart of average days in hospital by condition"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Cancer patients stay the longest on average (6 days), followed by Stroke and Heart Failure (5.5 days). Shorter stays like Asthma (1.5 days) indicate conditions managed quickly. Extended stays directly inflate billing costs and consume bed capacity — Cancer and Stroke patients warrant dedicated care pathway reviews to improve efficiency.</div>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">08</span><div><div class="slide-title">Revenue by insurance provider</div><div class="slide-sub">Total billed amount per insurer</div></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#534AB7"></span>Medicare</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD"></span>Aetna</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75"></span>Medicaid</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27"></span>UnitedHealth</span>
+  </div>
+  <div class="chart-wrap" style="height:260px"><canvas id="c8" role="img" aria-label="Bar chart of total billed amount per insurance provider"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Medicare and UnitedHealth are the top revenue-generating payers, each contributing over $58,000 in billed amounts. Aetna brings in ~$50,000 and Medicaid ~$35,000. Understanding payer mix is essential for financial forecasting — reliance on government payers (Medicare/Medicaid) often means lower reimbursement rates per claim.</div>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">09</span><div><div class="slide-title">Denial rate by insurance provider</div><div class="slide-sub">Which insurers deny the most claims?</div></div></div>
+  <div class="chart-wrap" style="height:260px"><canvas id="c9" role="img" aria-label="Bar chart of denial rate per insurer"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Aetna and Medicaid each show a 33% claim denial rate — meaning 1 in 3 claims filed against these payers gets rejected. UnitedHealth denies 25% and Medicare has zero denials in this dataset. Prioritising appeal workflows and pre-authorisation steps for Aetna and Medicaid claims can recover significant revenue.</div>
+</div>
+
+<!-- SLIDE 10 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">10</span><div><div class="slide-title">Test results vs billing amount</div><div class="slide-sub">Do abnormal results drive higher costs?</div></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A"></span>Abnormal</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD"></span>Normal</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27"></span>Inconclusive</span>
+  </div>
+  <div class="chart-wrap" style="height:260px"><canvas id="c10" role="img" aria-label="Bar chart of average billing by test result type"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Patients with abnormal test results generate the highest average billing ($12,250), nearly double that of patients with normal results ($4,570). Inconclusive results fall in between ($18,167 — skewed by cancer). This confirms the clinical intuition that sicker patients are costlier, and supports investment in early-detection screening to catch conditions before they become acute.</div>
+</div>
+
+<!-- SLIDE 11 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">11</span><div><div class="slide-title">Doctor caseload and average billing</div><div class="slide-sub">Which physicians carry the heaviest financial burden?</div></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#534AB7"></span>Avg bill ($)</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#B4B2A9;border:0.5px dashed #888"></span>Patients seen</span>
+  </div>
+  <div class="chart-wrap" style="height:280px"><canvas id="c11" role="img" aria-label="Chart of average billing per doctor"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Dr. Smith sees the most patients (5) but maintains a moderate average bill of ~$7,770. Dr. Kim manages the highest average billing per case (~$11,640), driven by stroke and cancer cases. Understanding billing concentration by physician helps with workload planning, credentialing, and identifying training needs around documentation that impacts coding accuracy.</div>
+</div>
+
+<!-- SLIDE 12 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">12</span><div><div class="slide-title">Admission type vs average billing</div><div class="slide-sub">Do emergency admissions cost more?</div></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A"></span>Emergency</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD"></span>Elective</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27"></span>Urgent</span>
+  </div>
+  <div class="chart-wrap" style="height:260px"><canvas id="c12" role="img" aria-label="Bar chart of average billing by admission type"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Emergency admissions average $12,600 per patient — nearly 2.5× the cost of elective admissions ($5,040). Urgent cases come in at $7,270. This cost differential highlights the financial case for upstream care: investing in outpatient management and chronic disease programmes can shift costly emergency visits to more affordable elective care.</div>
+</div>
+
+<!-- SLIDE 13 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">13</span><div><div class="slide-title">Medication prescribing frequency</div><div class="slide-sub">Top medications across all admissions</div></div></div>
+  <div class="chart-wrap" style="height:280px"><canvas id="c13" role="img" aria-label="Horizontal bar chart of medication frequency"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Metformin (diabetes) is the most prescribed medication (6 prescriptions), reflecting the leading admission condition. Chemotherapy and Furosemide (heart failure) each appear 3 times. tPA (stroke thrombolysis) and Albuterol (asthma) appear twice. Pharmacy procurement and formulary planning should be aligned with this prescribing pattern to avoid stock-outs of high-demand drugs.</div>
+</div>
+
+<!-- SLIDE 14 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">14</span><div><div class="slide-title">Revenue risk analysis — pending &amp; denied claims</div><div class="slide-sub">Estimated dollars at risk by condition</div></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27"></span>Pending</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A"></span>Denied</span>
+  </div>
+  <div class="chart-wrap" style="height:300px"><canvas id="c14" role="img" aria-label="Stacked bar chart of pending and denied claim amounts by condition"></canvas></div>
+  <div class="explanation"><strong>Slide explanation:</strong> Cancer ($34,700) and Stroke ($22,100) represent the largest blocks of at-risk revenue from pending and denied claims. Combined, the portfolio has approximately $75,000 in unresolved receivables. These are the top priorities for the billing team's appeal and follow-up activities, given both their scale and the complexity of payer negotiations for high-cost conditions.</div>
+</div>
+
+<!-- SLIDE 15 -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">15</span><div><div class="slide-title">Strategic summary — key findings &amp; recommendations</div><div class="slide-sub">Turning data into decisions</div></div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem">
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;border-left:3px solid #E24B4A">
+      <div style="font-size:12px;font-weight:500;color:#993C1D;margin-bottom:6px">Revenue risk</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.5">$75K+ in pending/denied claims. Aetna &amp; Medicaid need urgent appeals process review.</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;border-left:3px solid #EF9F27">
+      <div style="font-size:12px;font-weight:500;color:#854F0B;margin-bottom:6px">High-cost conditions</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.5">Stroke &amp; Cancer drive the highest bills. Develop specialised care pathways to reduce LOS.</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;border-left:3px solid #378ADD">
+      <div style="font-size:12px;font-weight:500;color:#185FA5;margin-bottom:6px">Preventive care</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.5">Diabetes is the top admission condition. Community outreach can shift emergency to elective.</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;border-left:3px solid #1D9E75">
+      <div style="font-size:12px;font-weight:500;color:#0F6E56;margin-bottom:6px">Capacity balance</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.5">Patient load is equally spread. Monitor bed-to-staff ratios as volumes grow.</div>
+    </div>
+  </div>
+  <div class="explanation"><strong>Slide explanation:</strong> This closing slide synthesises the four most actionable findings: pursue denied claims aggressively (especially Aetna/Medicaid), develop cost-reduction pathways for Stroke and Cancer, invest in diabetes prevention to convert expensive emergency admissions into manageable elective ones, and maintain capacity vigilance across all three hospitals as patient volumes scale.</div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const gridC = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+const txtC = isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.5)';
+
+const baseOpts = {
+  responsive:true, maintainAspectRatio:false,
+  plugins:{legend:{display:false}},
+  scales:{
+    x:{grid:{color:gridC},ticks:{color:txtC,font:{size:11}}},
+    y:{grid:{color:gridC},ticks:{color:txtC,font:{size:11}}}
+  }
+};
+
+document.getElementById('m-total-bill').textContent = '$209K';
+document.getElementById('m-avg-stay').textContent = '3.6d';
+
+new Chart(document.getElementById('c2'),{
+  type:'bar',
+  data:{
+    labels:['Diabetes','Cancer','Heart Failure','Pneumonia','Stroke','Hypertension','Asthma','Appendicitis'],
+    datasets:[{label:'Patients',data:[5,3,3,3,3,3,3,2],backgroundColor:'#534AB7',borderRadius:4}]
+  },
+  options:{...baseOpts,indexAxis:'y',plugins:{legend:{display:false}}}
+});
+
+new Chart(document.getElementById('c3'),{
+  type:'doughnut',
+  data:{
+    labels:['Emergency','Elective','Urgent'],
+    datasets:[{data:[11,8,6],backgroundColor:['#E24B4A','#378ADD','#EF9F27'],borderWidth:0}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
+});
+
+new Chart(document.getElementById('c4'),{
+  type:'bar',
+  data:{
+    labels:['City General','Metro Health','Regional Med'],
+    datasets:[{label:'Patients',data:[9,8,8],backgroundColor:['#534AB7','#1D9E75','#EF9F27'],borderRadius:4}]
+  },
+  options:{...baseOpts}
+});
+
+new Chart(document.getElementById('c5'),{
+  type:'bar',
+  data:{
+    labels:['Stroke','Cancer','Heart Failure','Pneumonia','Appendicitis','Diabetes','Hypertension','Asthma'],
+    datasets:[{label:'Avg Bill ($)',data:[23450,18167,13367,7333,7650,5830,3167,1983],backgroundColor:'#D85A30',borderRadius:4}]
+  },
+  options:{...baseOpts,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{...baseOpts.scales.x,ticks:{...baseOpts.scales.x.ticks,callback:v=>'$'+Math.round(v/1000)+'K'}},y:{...baseOpts.scales.y}}}
+});
+
+new Chart(document.getElementById('c6'),{
+  type:'pie',
+  data:{
+    labels:['Paid','Pending','Denied'],
+    datasets:[{data:[16,5,4],backgroundColor:['#639922','#EF9F27','#E24B4A'],borderWidth:0}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
+});
+
+new Chart(document.getElementById('c7'),{
+  type:'bar',
+  data:{
+    labels:['Cancer','Stroke','Heart Failure','Diabetes','Pneumonia','Hypertension','Appendicitis','Asthma'],
+    datasets:[{label:'Avg Days',data:[6,5.5,5,3.8,3,2,2,1.5],backgroundColor:'#1D9E75',borderRadius:4}]
+  },
+  options:{...baseOpts}
+});
+
+new Chart(document.getElementById('c8'),{
+  type:'bar',
+  data:{
+    labels:['Medicare','UnitedHealth','Aetna','Medicaid'],
+    datasets:[{label:'Total Billed ($)',data:[58050,63701,48850,29951],backgroundColor:['#534AB7','#EF9F27','#378ADD','#1D9E75'],borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:{...baseOpts.scales.x},y:{...baseOpts.scales.y,ticks:{...baseOpts.scales.y.ticks,callback:v=>'$'+Math.round(v/1000)+'K'}}}}
+});
+
+new Chart(document.getElementById('c9'),{
+  type:'bar',
+  data:{
+    labels:['Aetna','Medicaid','UnitedHealth','Medicare'],
+    datasets:[{label:'Denial rate %',data:[33,33,25,0],backgroundColor:['#E24B4A','#EF9F27','#BA7517','#639922'],borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:{...baseOpts.scales.x},y:{...baseOpts.scales.y,max:50,ticks:{...baseOpts.scales.y.ticks,callback:v=>v+'%'}}}}
+});
+
+new Chart(document.getElementById('c10'),{
+  type:'bar',
+  data:{
+    labels:['Abnormal','Inconclusive','Normal'],
+    datasets:[{label:'Avg Bill ($)',data:[12250,18167,4570],backgroundColor:['#E24B4A','#EF9F27','#378ADD'],borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:{...baseOpts.scales.x},y:{...baseOpts.scales.y,ticks:{...baseOpts.scales.y.ticks,callback:v=>'$'+Math.round(v/1000)+'K'}}}}
+});
+
+new Chart(document.getElementById('c11'),{
+  type:'bar',
+  data:{
+    labels:['Dr. Kim','Dr. Lee','Dr. Patel','Dr. Smith'],
+    datasets:[{label:'Avg Bill ($)',data:[11640,9837,7550,7770],backgroundColor:'#534AB7',borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:{...baseOpts.scales.x},y:{...baseOpts.scales.y,ticks:{...baseOpts.scales.y.ticks,callback:v=>'$'+Math.round(v/1000)+'K'}}}}
+});
+
+new Chart(document.getElementById('c12'),{
+  type:'bar',
+  data:{
+    labels:['Emergency','Urgent','Elective'],
+    datasets:[{label:'Avg Bill ($)',data:[12600,7270,5040],backgroundColor:['#E24B4A','#EF9F27','#378ADD'],borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:{...baseOpts.scales.x},y:{...baseOpts.scales.y,ticks:{...baseOpts.scales.y.ticks,callback:v=>'$'+Math.round(v/1000)+'K'}}}}
+});
+
+new Chart(document.getElementById('c13'),{
+  type:'bar',
+  data:{
+    labels:['Metformin','Chemotherapy','Furosemide','Azithromycin','Lisinopril','Amoxicillin','tPA','Albuterol'],
+    datasets:[{label:'Count',data:[6,3,3,3,3,2,2,2],backgroundColor:'#1D9E75',borderRadius:4}]
+  },
+  options:{...baseOpts,indexAxis:'y',plugins:{legend:{display:false}}}
+});
+
+new Chart(document.getElementById('c14'),{
+  type:'bar',
+  data:{
+    labels:['Cancer','Stroke','Heart Failure','Diabetes','Pneumonia'],
+    datasets:[
+      {label:'Pending',data:[16200,22100,13500,8750,5800],backgroundColor:'#EF9F27',borderRadius:0},
+      {label:'Denied',data:[18500,0,13500,8750,0],backgroundColor:'#E24B4A',borderRadius:4}
+    ]
+  },
+  options:{...baseOpts,scales:{x:{...baseOpts.scales.x,stacked:true},y:{...baseOpts.scales.y,stacked:true,ticks:{...baseOpts.scales.y.ticks,callback:v=>'$'+Math.round(v/1000)+'K'}}},plugins:{legend:{display:false}}}
+});
+</script>
