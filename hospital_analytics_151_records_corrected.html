@@ -1,0 +1,324 @@
+
+<h2 class="sr-only">Hospital Analytics Dashboard — all 151 patient records across admissions and billing</h2>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.deck{padding:1rem 0}
+.slide{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:2rem}
+.slide-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:1rem}
+.slide-num{background:#534AB7;color:#EEEDFE;border-radius:var(--border-radius-md);padding:4px 10px;font-size:12px;font-weight:500;white-space:nowrap;margin-top:2px}
+.slide-title{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.slide-sub{font-size:12px;color:var(--color-text-secondary);margin-top:3px}
+.expl{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.75rem 1rem;font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-top:1rem;border-left:3px solid #534AB7}
+.expl strong{color:var(--color-text-primary);font-weight:500}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:1rem}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.75rem;text-align:center}
+.metric-val{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.metric-lbl{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+.cw{position:relative;width:100%}
+.leg{display:flex;gap:12px;margin-bottom:8px;font-size:11px;color:var(--color-text-secondary);flex-wrap:wrap}
+.ls{display:flex;align-items:center;gap:4px}
+.lsq{width:10px;height:10px;border-radius:2px;display:inline-block}
+</style>
+
+<div class="deck">
+
+<!-- SLIDE 1: Executive Dashboard -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">01</span><div><div class="slide-title">Executive dashboard — all 151 patient records</div><div class="slide-sub">Combined admissions &amp; billing overview at full scale</div></div></div>
+  <div class="metrics">
+    <div class="metric"><div class="metric-val">151</div><div class="metric-lbl">Total admissions</div></div>
+    <div class="metric"><div class="metric-val">3</div><div class="metric-lbl">Hospitals</div></div>
+    <div class="metric"><div class="metric-val">$1.33M</div><div class="metric-lbl">Total billed</div></div>
+    <div class="metric"><div class="metric-val">3.6 d</div><div class="metric-lbl">Avg stay</div></div>
+    <div class="metric"><div class="metric-val">64%</div><div class="metric-lbl">Claims paid</div></div>
+    <div class="metric"><div class="metric-val">16%</div><div class="metric-lbl">Denial rate</div></div>
+    <div class="metric"><div class="metric-val">20%</div><div class="metric-lbl">Pending</div></div>
+    <div class="metric"><div class="metric-val">$8,833</div><div class="metric-lbl">Avg bill / patient</div></div>
+  </div>
+  <div class="expl"><strong>Slide explanation:</strong> At full scale (151 admissions), the dataset reveals $1.33 million in total billed charges across 3 hospitals and 4 insurance providers. The average bill per patient is $8,833 with a 3.6-day average stay. A 16% denial rate and 20% pending rate mean over a third of billed revenue is either lost or unresolved — a critical finding for the finance team.</div>
+</div>
+
+<!-- SLIDE 2: Medical Condition Distribution -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">02</span><div><div class="slide-title">Medical condition distribution — 151 admissions</div><div class="slide-sub">Which diagnoses drive the most volume?</div></div></div>
+  <div class="cw" style="height:300px"><canvas id="c2" role="img" aria-label="Horizontal bar chart of admissions by medical condition out of 151 total">Diabetes 34, Hypertension 17, Pneumonia 17, Cancer 17, Heart Failure 17, Asthma 17, Stroke 16, Appendicitis 16.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Diabetes dominates with 34 admissions (22.5% of all cases) — twice as many as any other condition. All other conditions (Hypertension, Pneumonia, Cancer, Heart Failure, Asthma, Stroke, Appendicitis) cluster tightly between 16–17 admissions each. This uniform distribution among non-diabetes conditions suggests consistent referral patterns, while diabetes's outsized share points to a population-level chronic disease burden requiring targeted intervention.</div>
+</div>
+
+<!-- SLIDE 3: Admission Type -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">03</span><div><div class="slide-title">Admission type breakdown</div><div class="slide-sub">Emergency vs Elective vs Urgent across 151 cases</div></div></div>
+  <div class="leg">
+    <span class="ls"><span class="lsq" style="background:#E24B4A"></span>Emergency — 59 (39%)</span>
+    <span class="ls"><span class="lsq" style="background:#378ADD"></span>Elective — 50 (33%)</span>
+    <span class="ls"><span class="lsq" style="background:#EF9F27"></span>Urgent — 42 (28%)</span>
+  </div>
+  <div class="cw" style="height:260px"><canvas id="c3" role="img" aria-label="Doughnut chart: Emergency 39%, Elective 33%, Urgent 28%">Emergency 59, Elective 50, Urgent 42.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Emergency admissions (59 cases, 39%) are the single largest category, consuming the most unplanned resources. Elective admissions (33%) offer a scheduling lever — expanding elective capacity can reduce bottlenecks. Urgent cases (28%) sit between the two in terms of resource predictability. The near-even three-way split signals a hospital system that handles the full spectrum of care intensity.</div>
+</div>
+
+<!-- SLIDE 4: Hospital Workload -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">04</span><div><div class="slide-title">Hospital workload — patient volume per facility</div><div class="slide-sub">Load distribution across the three hospitals</div></div></div>
+  <div class="leg">
+    <span class="ls"><span class="lsq" style="background:#534AB7"></span>City General (51)</span>
+    <span class="ls"><span class="lsq" style="background:#1D9E75"></span>Metro Health (50)</span>
+    <span class="ls"><span class="lsq" style="background:#EF9F27"></span>Regional Med (50)</span>
+  </div>
+  <div class="cw" style="height:240px"><canvas id="c4" role="img" aria-label="Bar chart: City General 51, Metro Health 50, Regional Med 50 patients">City General 51, Metro Health 50, Regional Med 50.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> All three hospitals carry almost identical workloads (~50 patients each), confirming a well-balanced referral network. City General has a marginal lead of 1 patient. This equity in patient distribution is operationally healthy but should be stress-tested against bed capacity, speciality availability, and staffing ratios to ensure each hospital can sustain this load as volumes grow.</div>
+</div>
+
+<!-- SLIDE 5: Avg Billing by Condition -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">05</span><div><div class="slide-title">Average billing amount by medical condition</div><div class="slide-sub">Which diagnoses cost the most per admission?</div></div></div>
+  <div class="cw" style="height:320px"><canvas id="c5" role="img" aria-label="Horizontal bar chart of average billing per condition">Pneumonia $11,921, Cancer $11,209, Hypertension $11,091, Asthma $10,412, Heart Failure $8,356, Appendicitis $6,869, Stroke $6,772, Diabetes $6,316.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Pneumonia ($11,921 average) is the most expensive condition per admission — a counterintuitive finding given its mid-level clinical severity. Cancer ($11,209) and Hypertension ($11,091) follow closely. Diabetes, despite being the highest-volume condition, has one of the lowest average bills ($6,316), suggesting it is largely managed with lower-acuity interventions. This insight should drive payer negotiation strategy: high-volume/low-cost conditions vs low-volume/high-cost ones require very different contracting approaches.</div>
+</div>
+
+<!-- SLIDE 6: Payment Status -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">06</span><div><div class="slide-title">Payment status across 151 claims</div><div class="slide-sub">Paid, Pending, and Denied claim counts</div></div></div>
+  <div class="leg">
+    <span class="ls"><span class="lsq" style="background:#639922"></span>Paid — 97 (64%)</span>
+    <span class="ls"><span class="lsq" style="background:#EF9F27"></span>Pending — 30 (20%)</span>
+    <span class="ls"><span class="lsq" style="background:#E24B4A"></span>Denied — 24 (16%)</span>
+  </div>
+  <div class="cw" style="height:260px"><canvas id="c6" role="img" aria-label="Pie chart: Paid 97, Pending 30, Denied 24">Paid 97 (64%), Pending 30 (20%), Denied 24 (16%).</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Of 151 claims, 97 are fully paid (64%), 30 are pending (20%), and 24 are denied (16%). Pending claims represent a cash-flow risk — if not resolved promptly, they age into bad debt. The 24 denied claims represent an estimated $212,000+ in at-risk revenue (based on average billing). Systematic appeals and pre-authorisation improvements targeting the denial root causes could recover a significant portion of this sum.</div>
+</div>
+
+<!-- SLIDE 7: Length of Stay -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">07</span><div><div class="slide-title">Average length of stay by condition</div><div class="slide-sub">Days hospitalised across all 151 admissions</div></div></div>
+  <div class="cw" style="height:300px"><canvas id="c7" role="img" aria-label="Bar chart of average days in hospital by medical condition">Cancer 5.6, Stroke 5.5, Heart Failure 5.0, Diabetes 3.4, Pneumonia 3.4, Hypertension 2.1, Appendicitis 2.0, Asthma 1.9.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Cancer (5.6 days) and Stroke (5.5 days) patients have the longest average stays, placing the highest sustained demand on beds, nursing, and allied health resources. Heart Failure follows at 5.0 days. Asthma and Appendicitis patients turn over quickly (under 2 days on average), freeing capacity. Reducing Cancer and Stroke LOS by even half a day through better discharge planning could free 17+ bed-days per month system-wide.</div>
+</div>
+
+<!-- SLIDE 8: Revenue by Insurer -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">08</span><div><div class="slide-title">Total revenue by insurance provider</div><div class="slide-sub">Billed amounts across $1.33M total</div></div></div>
+  <div class="leg">
+    <span class="ls"><span class="lsq" style="background:#534AB7"></span>Medicare $370,800</span>
+    <span class="ls"><span class="lsq" style="background:#EF9F27"></span>UnitedHealth $443,403</span>
+    <span class="ls"><span class="lsq" style="background:#378ADD"></span>Aetna $305,103</span>
+    <span class="ls"><span class="lsq" style="background:#1D9E75"></span>Medicaid $214,506</span>
+  </div>
+  <div class="cw" style="height:260px"><canvas id="c8" role="img" aria-label="Bar chart of total billed revenue by insurer">UnitedHealth $443K, Medicare $371K, Aetna $305K, Medicaid $215K.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> UnitedHealth is the single largest payer by billed revenue ($443K, 33% of total), followed by Medicare ($371K, 28%). Aetna contributes $305K and Medicaid $215K. Notably, UnitedHealth also generates the most denials in absolute terms. The combined government payer share (Medicare + Medicaid, $586K) is 44% of total revenue — a significant dependency on government reimbursement rates that may compress margins.</div>
+</div>
+
+<!-- SLIDE 9: Denial Rate by Insurer -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">09</span><div><div class="slide-title">Claim denial rate by insurance provider</div><div class="slide-sub">Which payers reject the most claims?</div></div></div>
+  <div class="cw" style="height:260px"><canvas id="c9" role="img" aria-label="Bar chart of claim denial rates by insurer">Aetna 33%, Medicaid 17%, UnitedHealth 17%, Medicare 0%.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Aetna has a 33% denial rate — one in three Aetna claims is rejected. This is dramatically higher than Medicaid (17%), UnitedHealth (17%), and Medicare (0%). Medicare's perfect payment record suggests either the lowest-acuity cases are covered under Medicare, or its documentation standards are being met consistently. Aetna should be the immediate focus for billing team audits, pre-authorisation checklists, and coding accuracy reviews.</div>
+</div>
+
+<!-- SLIDE 10: Test Results vs Billing -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">10</span><div><div class="slide-title">Test results vs average billing amount</div><div class="slide-sub">Does diagnostic outcome predict cost?</div></div></div>
+  <div class="leg">
+    <span class="ls"><span class="lsq" style="background:#EF9F27"></span>Inconclusive</span>
+    <span class="ls"><span class="lsq" style="background:#378ADD"></span>Normal</span>
+    <span class="ls"><span class="lsq" style="background:#E24B4A"></span>Abnormal</span>
+  </div>
+  <div class="cw" style="height:240px"><canvas id="c10" role="img" aria-label="Bar chart: Inconclusive $11,209, Normal $9,107, Abnormal $7,957">Inconclusive average $11,209, Normal $9,107, Abnormal $7,957.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Counterintuitively, patients with Inconclusive test results have the highest average billing ($11,209), followed by Normal results ($9,107), with Abnormal results generating the lowest average bill ($7,957). This likely reflects the diagnostic workup costs for inconclusive cases (additional imaging, repeat labs) and the fact that many "Normal" results are from complex elective cases. This challenges the assumption that abnormal = expensive — inconclusive results carry hidden cost burdens.</div>
+</div>
+
+<!-- SLIDE 11: Doctor Caseload & Avg Billing -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">11</span><div><div class="slide-title">Physician caseload and average billing</div><div class="slide-sub">Performance profile across 4 doctors</div></div></div>
+  <div class="leg">
+    <span class="ls"><span class="lsq" style="background:#534AB7"></span>Avg bill per case ($)</span>
+    <span class="ls"><span class="lsq" style="background:#9FE1CB;border:0.5px dashed #1D9E75"></span>Cases seen (count)</span>
+  </div>
+  <div class="cw" style="height:280px"><canvas id="c11" role="img" aria-label="Grouped bar chart of avg billing and patient count per doctor">Dr. Smith $9,579 / 42 patients; Dr. Kim $9,003 / 41; Dr. Lee $8,693 / 34; Dr. Patel $7,849 / 34.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Dr. Smith carries the heaviest caseload (42 patients) and generates the highest average billing ($9,579), suggesting a case-mix skewed toward complex or high-acuity presentations. Dr. Kim is close with 41 patients at $9,003 average. Dr. Lee and Dr. Patel both see 34 patients with progressively lower average bills. These differences warrant a case-mix index review — billing variation may reflect speciality focus rather than efficiency differences.</div>
+</div>
+
+<!-- SLIDE 12: Admission Type vs Billing -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">12</span><div><div class="slide-title">Admission type vs average billing</div><div class="slide-sub">Does the admission route drive cost?</div></div></div>
+  <div class="leg">
+    <span class="ls"><span class="lsq" style="background:#378ADD"></span>Elective</span>
+    <span class="ls"><span class="lsq" style="background:#E24B4A"></span>Emergency</span>
+    <span class="ls"><span class="lsq" style="background:#EF9F27"></span>Urgent</span>
+  </div>
+  <div class="cw" style="height:240px"><canvas id="c12" role="img" aria-label="Bar chart: Elective $9,321, Emergency $8,737, Urgent $8,387">Elective $9,321, Emergency $8,737, Urgent $8,387.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Across all 151 records, Elective admissions actually average the highest billing ($9,321) — slightly more than Emergency ($8,737) and Urgent ($8,387). This is a notable reversal from the 25-record sample, and reflects that elective cases in this dataset include high-cost scheduled procedures (cancer treatment, cardiac work). This finding argues for growing elective capacity, as it delivers higher predictable revenue alongside emergency care.</div>
+</div>
+
+<!-- SLIDE 13: Medication Prescribing -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">13</span><div><div class="slide-title">Medication prescribing frequency</div><div class="slide-sub">Top drugs across all 151 admissions</div></div></div>
+  <div class="cw" style="height:300px"><canvas id="c13" role="img" aria-label="Horizontal bar chart of medication counts">Metformin 37, Lisinopril 18, Azithromycin 18, Chemotherapy 18, Furosemide 18, Albuterol 18, tPA 12, Amoxicillin 12.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Metformin (37 prescriptions) is by far the most dispensed medication, directly reflecting diabetes as the leading admission condition. Six medications — Lisinopril, Azithromycin, Chemotherapy, Furosemide, Albuterol, and tPA — are each prescribed 12–18 times, showing a balanced formulary usage across the other conditions. Pharmacy procurement should weight Metformin stocking heavily, while maintaining adequate reserves of the other six high-use drugs to prevent stockouts.</div>
+</div>
+
+<!-- SLIDE 14: Revenue at Risk -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">14</span><div><div class="slide-title">Revenue at risk — pending &amp; denied claims by condition</div><div class="slide-sub">Where is the most money stuck or lost?</div></div></div>
+  <div class="leg">
+    <span class="ls"><span class="lsq" style="background:#EF9F27"></span>Pending ($)</span>
+    <span class="ls"><span class="lsq" style="background:#E24B4A"></span>Denied ($)</span>
+  </div>
+  <div class="cw" style="height:320px"><canvas id="c14" role="img" aria-label="Stacked bar of at-risk revenue by condition">Pneumonia $130K, Cancer $124K, Hypertension $119K, Asthma $104K, Diabetes $102K, Heart Failure $70K, Appendicitis $55K, Stroke $42K.</canvas></div>
+  <div class="expl"><strong>Slide explanation:</strong> Pneumonia carries the largest at-risk revenue block ($130K combined pending + denied), closely followed by Cancer ($124K) and Hypertension ($119K). In total, approximately $746K of the $1.33M billed is either pending or denied — 56% of total revenue is unresolved or lost. This is a financial emergency. Prioritising appeals for Pneumonia, Cancer, and Hypertension denials while accelerating Pending claim follow-ups could recover hundreds of thousands of dollars.</div>
+</div>
+
+<!-- SLIDE 15: Strategic Summary -->
+<div class="slide">
+  <div class="slide-header"><span class="slide-num">15</span><div><div class="slide-title">Strategic summary — findings &amp; recommendations</div><div class="slide-sub">Five actions from the full 151-record analysis</div></div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:1rem">
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.9rem;border-top:3px solid #E24B4A">
+      <div style="font-size:11px;font-weight:500;color:#993C1D;margin-bottom:6px">Revenue recovery</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">$746K at risk. Launch urgent denial appeals for Pneumonia, Cancer, and Hypertension claims.</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.9rem;border-top:3px solid #EF9F27">
+      <div style="font-size:11px;font-weight:500;color:#854F0B;margin-bottom:6px">Aetna priority</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">33% denial rate. Audit Aetna claims for coding errors and prior-auth gaps immediately.</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.9rem;border-top:3px solid #534AB7">
+      <div style="font-size:11px;font-weight:500;color:#3C3489;margin-bottom:6px">Diabetes programme</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">22.5% of all admissions. Invest in community diabetes management to reduce repeat admissions.</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.9rem;border-top:3px solid #1D9E75">
+      <div style="font-size:11px;font-weight:500;color:#0F6E56;margin-bottom:6px">LOS reduction</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Cancer &amp; Stroke average 5.5+ days. Discharge planning improvements can free significant bed capacity.</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.9rem;border-top:3px solid #378ADD">
+      <div style="font-size:11px;font-weight:500;color:#185FA5;margin-bottom:6px">Elective growth</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Elective cases generate the highest avg bill ($9,321). Expanding elective slots boosts predictable revenue.</div>
+    </div>
+  </div>
+  <div class="expl"><strong>Slide explanation:</strong> The full 151-record analysis overturns several conclusions from the smaller sample. Key corrected findings: (1) Pneumonia, not Stroke, is the costliest condition per admission; (2) Elective admissions cost more than Emergency ones; (3) Inconclusive test results drive higher bills than Abnormal results; (4) 56% of total billed revenue is unresolved. These five strategic priorities — revenue recovery, Aetna denial resolution, diabetes prevention, LOS optimisation, and elective expansion — represent the clearest path to financial and operational improvement.</div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const dk = matchMedia('(prefers-color-scheme:dark)').matches;
+const gc = dk?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)';
+const tc = dk?'rgba(255,255,255,0.55)':'rgba(0,0,0,0.5)';
+const sc = {grid:{color:gc},ticks:{color:tc,font:{size:11}}};
+const baseOpts = {responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:sc,y:sc}};
+const kFmt = v=>'$'+Math.round(v/1000)+'K';
+
+new Chart(document.getElementById('c2'),{
+  type:'bar',
+  data:{
+    labels:['Diabetes','Hypertension','Pneumonia','Cancer','Heart Failure','Asthma','Stroke','Appendicitis'],
+    datasets:[{label:'Admissions',data:[34,17,17,17,17,17,16,16],backgroundColor:['#534AB7','#378ADD','#1D9E75','#E24B4A','#EF9F27','#639922','#D85A30','#888780'],borderRadius:4}]
+  },
+  options:{...baseOpts,indexAxis:'y'}
+});
+
+new Chart(document.getElementById('c3'),{
+  type:'doughnut',
+  data:{labels:['Emergency','Elective','Urgent'],datasets:[{data:[59,50,42],backgroundColor:['#E24B4A','#378ADD','#EF9F27'],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
+});
+
+new Chart(document.getElementById('c4'),{
+  type:'bar',
+  data:{labels:['City General','Metro Health','Regional Med'],datasets:[{label:'Patients',data:[51,50,50],backgroundColor:['#534AB7','#1D9E75','#EF9F27'],borderRadius:4}]},
+  options:{...baseOpts,scales:{x:sc,y:{...sc,min:48,max:52,ticks:{...sc.ticks,stepSize:1}}}}
+});
+
+new Chart(document.getElementById('c5'),{
+  type:'bar',
+  data:{
+    labels:['Pneumonia','Cancer','Hypertension','Asthma','Heart Failure','Appendicitis','Stroke','Diabetes'],
+    datasets:[{label:'Avg Bill',data:[11921,11209,11091,10412,8356,6869,6772,6316],backgroundColor:'#D85A30',borderRadius:4}]
+  },
+  options:{...baseOpts,indexAxis:'y',scales:{x:{...sc,ticks:{...sc.ticks,callback:kFmt}},y:sc}}
+});
+
+new Chart(document.getElementById('c6'),{
+  type:'pie',
+  data:{labels:['Paid','Pending','Denied'],datasets:[{data:[97,30,24],backgroundColor:['#639922','#EF9F27','#E24B4A'],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
+});
+
+new Chart(document.getElementById('c7'),{
+  type:'bar',
+  data:{
+    labels:['Cancer','Stroke','Heart Failure','Diabetes','Pneumonia','Hypertension','Appendicitis','Asthma'],
+    datasets:[{label:'Avg Days',data:[5.6,5.5,5.0,3.4,3.4,2.1,2.0,1.9],backgroundColor:'#1D9E75',borderRadius:4}]
+  },
+  options:{...baseOpts}
+});
+
+new Chart(document.getElementById('c8'),{
+  type:'bar',
+  data:{
+    labels:['UnitedHealth','Medicare','Aetna','Medicaid'],
+    datasets:[{label:'Revenue',data:[443403,370800,305103,214506],backgroundColor:['#EF9F27','#534AB7','#378ADD','#1D9E75'],borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:sc,y:{...sc,ticks:{...sc.ticks,callback:kFmt}}}}
+});
+
+new Chart(document.getElementById('c9'),{
+  type:'bar',
+  data:{
+    labels:['Aetna','Medicaid','UnitedHealth','Medicare'],
+    datasets:[{label:'Denial %',data:[33,17,17,0],backgroundColor:['#E24B4A','#EF9F27','#BA7517','#639922'],borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:sc,y:{...sc,max:45,ticks:{...sc.ticks,callback:v=>v+'%'}}}}
+});
+
+new Chart(document.getElementById('c10'),{
+  type:'bar',
+  data:{
+    labels:['Inconclusive','Normal','Abnormal'],
+    datasets:[{label:'Avg Bill',data:[11209,9107,7957],backgroundColor:['#EF9F27','#378ADD','#E24B4A'],borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:sc,y:{...sc,ticks:{...sc.ticks,callback:kFmt}}}}
+});
+
+new Chart(document.getElementById('c11'),{
+  type:'bar',
+  data:{
+    labels:['Dr. Smith','Dr. Kim','Dr. Lee','Dr. Patel'],
+    datasets:[
+      {label:'Avg Bill ($)',data:[9579,9003,8693,7849],backgroundColor:'#534AB7',borderRadius:4},
+      {label:'Patients',data:[42,41,34,34],backgroundColor:'#9FE1CB',borderRadius:4}
+    ]
+  },
+  options:{...baseOpts,scales:{x:sc,y:{...sc,ticks:{...sc.ticks,callback:v=>v>100?v:'$'+v}}}}
+});
+
+new Chart(document.getElementById('c12'),{
+  type:'bar',
+  data:{
+    labels:['Elective','Emergency','Urgent'],
+    datasets:[{label:'Avg Bill',data:[9321,8737,8387],backgroundColor:['#378ADD','#E24B4A','#EF9F27'],borderRadius:4}]
+  },
+  options:{...baseOpts,scales:{x:sc,y:{...sc,min:7500,ticks:{...sc.ticks,callback:kFmt}}}}
+});
+
+new Chart(document.getElementById('c13'),{
+  type:'bar',
+  data:{
+    labels:['Metformin','Lisinopril','Azithromycin','Chemotherapy','Furosemide','Albuterol','tPA','Amoxicillin'],
+    datasets:[{label:'Prescriptions',data:[37,18,18,18,18,18,12,12],backgroundColor:'#378ADD',borderRadius:4}]
+  },
+  options:{...baseOpts,indexAxis:'y'}
+});
+
+new Chart(document.getElementById('c14'),{
+  type:'bar',
+  data:{
+    labels:['Pneumonia','Cancer','Hypertension','Asthma','Diabetes','Heart Failure','Appendicitis','Stroke'],
+    datasets:[
+      {label:'Pending ($)',data:[69702,63901,58100,52500,41801,47701,16200,33501],backgroundColor:'#EF9F27',borderRadius:0},
+      {label:'Denied ($)',data:[60550,60550,60550,51800,60550,22250,38300,8750],backgroundColor:'#E24B4A',borderRadius:4}
+    ]
+  },
+  options:{...baseOpts,scales:{x:sc,y:{...sc,stacked:true,ticks:{...sc.ticks,callback:kFmt}}},plugins:{legend:{display:false}}}
+});
+</script>
